@@ -32,6 +32,10 @@ export default function HeroAnimationSlot({ scrollProgress }) {
           ctx.drawImage(img, 0, 0, 1, 1)
           const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data
           setBgColor(`rgb(${r}, ${g}, ${b})`)
+
+          // Signal to the rest of the page that the priority hero images are done,
+          // so background preloading for the specs can begin sequentially!
+          window.dispatchEvent(new Event('heroLoaded'))
         }
       }
       loadedImages.push(img)

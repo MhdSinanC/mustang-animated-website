@@ -39,35 +39,74 @@ export default function PartAnimationSlot({ activePartIndexValue }) {
 }
 
 function PartIllustration({ activePartIndexValue, accent }) {
+  // Staggered loading state: prevents 1500 images from downloading at once!
+  const [heroLoaded, setHeroLoaded] = useState(false)
+  const [engineLoaded, setEngineLoaded] = useState(false)
+  const [drivetrainLoaded, setDrivetrainLoaded] = useState(false)
+  const [suspensionLoaded, setSuspensionLoaded] = useState(false)
+  const [brakesLoaded, setBrakesLoaded] = useState(false)
 
-
-
+  useEffect(() => {
+    const handleHero = () => setHeroLoaded(true)
+    window.addEventListener('heroLoaded', handleHero)
+    // Fallback just in case hero takes too long or already fired before this mounted
+    const timeout = setTimeout(() => setHeroLoaded(true), 5000)
+    
+    return () => {
+      window.removeEventListener('heroLoaded', handleHero)
+      clearTimeout(timeout)
+    }
+  }, [])
 
   return (
     <>
       <div className="absolute inset-0 z-10 pointer-events-none">
-        <EngineIllustration activePartIndexValue={activePartIndexValue} accent={accent} />
+        <EngineIllustration 
+          activePartIndexValue={activePartIndexValue} 
+          accent={accent} 
+          shouldLoad={heroLoaded} 
+          onLoaded={() => setEngineLoaded(true)} 
+        />
       </div>
       <div className="absolute inset-0 z-20 pointer-events-none">
-        <DrivetrainIllustration activePartIndexValue={activePartIndexValue} accent={accent} />
+        <DrivetrainIllustration 
+          activePartIndexValue={activePartIndexValue} 
+          accent={accent} 
+          shouldLoad={engineLoaded} 
+          onLoaded={() => setDrivetrainLoaded(true)} 
+        />
       </div>
       
       <div className="absolute inset-0 z-30 pointer-events-none">
-        <SuspensionIllustration activePartIndexValue={activePartIndexValue} accent={accent} />
+        <SuspensionIllustration 
+          activePartIndexValue={activePartIndexValue} 
+          accent={accent} 
+          shouldLoad={drivetrainLoaded} 
+          onLoaded={() => setSuspensionLoaded(true)} 
+        />
       </div>
 
       <div className="absolute inset-0 z-40 pointer-events-none">
-        <BrakeIllustration activePartIndexValue={activePartIndexValue} accent={accent} />
+        <BrakeIllustration 
+          activePartIndexValue={activePartIndexValue} 
+          accent={accent} 
+          shouldLoad={suspensionLoaded} 
+          onLoaded={() => setBrakesLoaded(true)} 
+        />
       </div>
 
       <div className="absolute inset-0 z-50 pointer-events-none">
-        <AeroIllustration activePartIndexValue={activePartIndexValue} accent={accent} />
+        <AeroIllustration 
+          activePartIndexValue={activePartIndexValue} 
+          accent={accent} 
+          shouldLoad={brakesLoaded} 
+        />
       </div>
     </>
   )
 }
 
-function EngineIllustration({ activePartIndexValue, accent }) {
+function EngineIllustration({ activePartIndexValue, accent, shouldLoad, onLoaded }) {
   const canvasRef = useRef(null)
   const [images, setImages] = useState([])
   const [loaded, setLoaded] = useState(false)
@@ -75,6 +114,7 @@ function EngineIllustration({ activePartIndexValue, accent }) {
 
   // Preload frames
   useEffect(() => {
+    if (!shouldLoad) return;
     let loadedCount = 0
     const loadedImages = []
 
@@ -88,11 +128,12 @@ function EngineIllustration({ activePartIndexValue, accent }) {
         if (loadedCount === frameCount) {
           setImages(loadedImages)
           setLoaded(true)
+          if (onLoaded) onLoaded()
         }
       }
       loadedImages.push(img)
     }
-  }, [])
+  }, [shouldLoad, onLoaded])
 
   // Draw initial frame
   useEffect(() => {
@@ -182,7 +223,7 @@ function EngineIllustration({ activePartIndexValue, accent }) {
   )
 }
 
-function DrivetrainIllustration({ activePartIndexValue, accent }) {
+function DrivetrainIllustration({ activePartIndexValue, accent, shouldLoad, onLoaded }) {
   const canvasRef = useRef(null)
   const [images, setImages] = useState([])
   const [loaded, setLoaded] = useState(false)
@@ -190,6 +231,7 @@ function DrivetrainIllustration({ activePartIndexValue, accent }) {
 
   // Preload frames
   useEffect(() => {
+    if (!shouldLoad) return;
     let loadedCount = 0
     const loadedImages = []
 
@@ -203,11 +245,12 @@ function DrivetrainIllustration({ activePartIndexValue, accent }) {
         if (loadedCount === frameCount) {
           setImages(loadedImages)
           setLoaded(true)
+          if (onLoaded) onLoaded()
         }
       }
       loadedImages.push(img)
     }
-  }, [])
+  }, [shouldLoad, onLoaded])
 
   // Draw initial frame
   useEffect(() => {
@@ -294,7 +337,7 @@ function DrivetrainIllustration({ activePartIndexValue, accent }) {
   )
 }
 
-function SuspensionIllustration({ activePartIndexValue, accent }) {
+function SuspensionIllustration({ activePartIndexValue, accent, shouldLoad, onLoaded }) {
   const canvasRef = useRef(null)
   const [images, setImages] = useState([])
   const [loaded, setLoaded] = useState(false)
@@ -302,6 +345,7 @@ function SuspensionIllustration({ activePartIndexValue, accent }) {
 
   // Preload frames
   useEffect(() => {
+    if (!shouldLoad) return;
     let loadedCount = 0
     const loadedImages = []
 
@@ -315,11 +359,12 @@ function SuspensionIllustration({ activePartIndexValue, accent }) {
         if (loadedCount === frameCount) {
           setImages(loadedImages)
           setLoaded(true)
+          if (onLoaded) onLoaded()
         }
       }
       loadedImages.push(img)
     }
-  }, [])
+  }, [shouldLoad, onLoaded])
 
   // Draw initial frame
   useEffect(() => {
@@ -406,7 +451,7 @@ function SuspensionIllustration({ activePartIndexValue, accent }) {
   )
 }
 
-function BrakeIllustration({ activePartIndexValue, accent }) {
+function BrakeIllustration({ activePartIndexValue, accent, shouldLoad, onLoaded }) {
   const canvasRef = useRef(null)
   const [images, setImages] = useState([])
   const [loaded, setLoaded] = useState(false)
@@ -414,6 +459,7 @@ function BrakeIllustration({ activePartIndexValue, accent }) {
 
   // Preload frames
   useEffect(() => {
+    if (!shouldLoad) return;
     let loadedCount = 0
     const loadedImages = []
 
@@ -427,11 +473,12 @@ function BrakeIllustration({ activePartIndexValue, accent }) {
         if (loadedCount === frameCount) {
           setImages(loadedImages)
           setLoaded(true)
+          if (onLoaded) onLoaded()
         }
       }
       loadedImages.push(img)
     }
-  }, [])
+  }, [shouldLoad, onLoaded])
 
   // Draw initial frame
   useEffect(() => {
@@ -518,7 +565,7 @@ function BrakeIllustration({ activePartIndexValue, accent }) {
   )
 }
 
-function AeroIllustration({ activePartIndexValue, accent }) {
+function AeroIllustration({ activePartIndexValue, accent, shouldLoad }) {
   const canvasRef = useRef(null)
   const [images, setImages] = useState([])
   const [loaded, setLoaded] = useState(false)
@@ -526,6 +573,7 @@ function AeroIllustration({ activePartIndexValue, accent }) {
 
   // Preload frames
   useEffect(() => {
+    if (!shouldLoad) return;
     let loadedCount = 0
     const loadedImages = []
 
@@ -543,7 +591,7 @@ function AeroIllustration({ activePartIndexValue, accent }) {
       }
       loadedImages.push(img)
     }
-  }, [])
+  }, [shouldLoad])
 
   // Draw initial frame
   useEffect(() => {
