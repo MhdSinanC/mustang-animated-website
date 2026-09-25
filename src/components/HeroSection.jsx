@@ -47,7 +47,7 @@ function ScrollQuote({ quote, scrollYProgress }) {
       className="absolute inset-0 flex items-start justify-center pt-[13vh] sm:pt-[15vh] md:items-center md:justify-center md:pt-0 pointer-events-none"
     >
       <div className="text-center px-6 max-w-sm sm:max-w-md md:max-w-4xl md:mt-0">
-        <h2 className="font-racing text-2xl sm:text-3xl md:text-6xl lg:text-7xl text-white drop-shadow-2xl leading-tight">
+        <h2 className="font-racing text-2xl sm:text-3xl md:text-6xl text-white drop-shadow-2xl leading-tight">
           {quote.text}
         </h2>
       </div>
