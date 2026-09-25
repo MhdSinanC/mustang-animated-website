@@ -85,7 +85,7 @@ export default function HeroSection() {
 
   // Completely wipe the scroll indicator from the DOM the second they start scrolling
   const [hasScrolled, setHasScrolled] = useState(false)
-  
+
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     if (latest > 0.001 && !hasScrolled) {
       setHasScrolled(true)
@@ -102,9 +102,9 @@ export default function HeroSection() {
       className="relative h-[400vh] w-full bg-black z-10"
     >
       {/* Sticky Full-Screen Viewport for Canvas and Overlays */}
-      <motion.div 
+      <motion.div
         style={{ opacity: opacityContainer }}
-        className="sticky top-0 h-screen min-h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-center"
+        className="sticky top-0 h-dvh w-full overflow-hidden flex flex-col items-center justify-center"
       >
         {/* Fullscreen Canvas Animation: Mobile vs Desktop/Tablet */}
         <div className="absolute inset-0 z-0 pointer-events-none">
@@ -124,7 +124,7 @@ export default function HeroSection() {
 
         {/* Scroll indicator - Completely removed from DOM upon scrolling */}
         {!hasScrolled && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20 pointer-events-none"
