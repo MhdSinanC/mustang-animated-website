@@ -1,6 +1,9 @@
 import { useRef, useEffect, useState } from 'react'
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion'
 import HeroAnimationSlot from './HeroAnimationSlot'
+import MobileHeroAnimationSlot from './MobileHeroAnimationSlot'
+
+const MOBILE_BREAKPOINT = 768
 
 const QUOTES = [
   {
@@ -41,10 +44,10 @@ function ScrollQuote({ quote, scrollYProgress }) {
   return (
     <motion.div
       style={{ opacity, y }}
-      className="absolute inset-0 flex items-center justify-center pointer-events-none"
+      className="absolute inset-0 flex items-start justify-center pt-[13vh] sm:pt-[15vh] md:items-center md:justify-center md:pt-0 pointer-events-none"
     >
-      <div className="text-center px-6 mt-[35vh] sm:mt-0">
-        <h2 className="font-racing text-3xl sm:text-6xl lg:text-7xl text-white drop-shadow-2xl max-w-4xl leading-tight">
+      <div className="text-center px-6 max-w-sm sm:max-w-md md:max-w-4xl md:mt-0">
+        <h2 className="font-racing text-2xl sm:text-3xl md:text-6xl lg:text-7xl text-white drop-shadow-2xl leading-tight">
           {quote.text}
         </h2>
       </div>
@@ -59,22 +62,38 @@ export default function HeroSection() {
     offset: ["start start", "end end"]
   })
 
+  // Dynamic responsive detection for mobile vs desktop/tablet
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < MOBILE_BREAKPOINT
+    }
+    return false
+  })
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   // Fade out the entire hero section as we reach the very end of it
   const opacityContainer = useTransform(scrollYProgress, [0.95, 1], [1, 0])
 
   // Completely wipe the scroll indicator from the DOM the second they start scrolling
   const [hasScrolled, setHasScrolled] = useState(false)
-  
-  if (scrollYProgress) {
-    useMotionValueEvent(scrollYProgress, "change", (latest) => {
-      if (latest > 0.001 && !hasScrolled) {
-        setHasScrolled(true)
-      } else if (latest <= 0.001 && hasScrolled) {
-        // Bring it back if they scroll all the way to the absolute top
-        setHasScrolled(false)
-      }
-    })
-  }
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (latest > 0.001 && !hasScrolled) {
+      setHasScrolled(true)
+    } else if (latest <= 0.001 && hasScrolled) {
+      // Bring it back if they scroll all the way to the absolute top
+      setHasScrolled(false)
+    }
+  })
 
   return (
     <section
@@ -83,13 +102,17 @@ export default function HeroSection() {
       className="relative h-[400vh] w-full bg-black z-10"
     >
       {/* Sticky Full-Screen Viewport for Canvas and Overlays */}
-      <motion.div 
+      <motion.div
         style={{ opacity: opacityContainer }}
         className="sticky top-0 h-dvh w-full overflow-hidden flex flex-col items-center justify-center"
       >
-        {/* Fullscreen Canvas Animation */}
+        {/* Fullscreen Canvas Animation: Mobile vs Desktop/Tablet */}
         <div className="absolute inset-0 z-0 pointer-events-none">
-          <HeroAnimationSlot scrollProgress={scrollYProgress} />
+          {isMobile ? (
+            <MobileHeroAnimationSlot scrollProgress={scrollYProgress} />
+          ) : (
+            <HeroAnimationSlot scrollProgress={scrollYProgress} />
+          )}
         </div>
 
         {/* Quotes Overlays */}
@@ -101,7 +124,7 @@ export default function HeroSection() {
 
         {/* Scroll indicator - Completely removed from DOM upon scrolling */}
         {!hasScrolled && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20 pointer-events-none"
