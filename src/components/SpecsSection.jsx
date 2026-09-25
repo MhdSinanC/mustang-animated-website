@@ -175,7 +175,7 @@ export default function SpecsSection({ accentColor }) {
     <section ref={containerRef} id="specs" className="relative h-[1000vh] bg-black z-10">
       
       {/* Sticky Full-Screen Viewport */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
+      <div className="sticky top-0 h-dvh w-full overflow-hidden flex items-center justify-center">
         
         {/* Background Animation Canvas */}
         <div className="absolute inset-0 z-0">

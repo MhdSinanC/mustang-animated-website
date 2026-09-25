@@ -85,7 +85,7 @@ export default function HeroSection() {
       {/* Sticky Full-Screen Viewport for Canvas and Overlays */}
       <motion.div 
         style={{ opacity: opacityContainer }}
-        className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center"
+        className="sticky top-0 h-dvh w-full overflow-hidden flex flex-col items-center justify-center"
       >
         {/* Fullscreen Canvas Animation */}
         <div className="absolute inset-0 z-0 pointer-events-none">
