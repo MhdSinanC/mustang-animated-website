@@ -1,16 +1,46 @@
-# React + Vite
+# Ford Mustang Shelby GT350 Animated Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+An immersive, high-performance web experience dedicated to the iconic Ford Mustang Shelby GT350. This project brings the track-focused DNA of the Shelby to life on the web with dynamic animations, smooth scrolling, and a technical HUD-style user interface.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Technical HUD Overlay:** A futuristic, heads-up display style overlay framing the content.
+- **Smooth Scrolling:** Fluid, physics-based smooth scrolling experience.
+- **Dynamic Animations:** High-quality motion design and scroll-linked animations.
+- **Custom Animated Cursor:** A tailored cursor that enhances the interactive feel of the site.
+- **Responsive Design:** Optimized for a seamless experience across devices.
 
-## React Compiler
+## 🛠️ Technologies Used
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **[React 19](https://react.dev/):** Component-based UI library used for building the interface.
+- **[Vite](https://vitejs.dev/):** Next-generation frontend tooling for lightning-fast development and optimized builds.
+- **[Tailwind CSS](https://tailwindcss.com/):** Utility-first CSS framework for rapid and maintainable styling.
+- **[Framer Motion](https://www.framer.com/motion/):** Powerful animation library used for complex scroll and UI animations.
+- **[Lenis](https://lenis.darkroom.engineering/):** Lightweight and robust smooth scroll library.
+- **[Oxlint](https://oxc.rs/docs/guide/usage/linter.html):** Extremely fast JavaScript linter used to enforce code quality.
 
-## Expanding the Oxlint configuration
+## 📂 Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- `src/components/HeroSection.jsx` - Landing view with striking typography and intro animations.
+- `src/components/SpecsSection.jsx` - Showcases the technical specifications of the 5.2L Voodoo V8.
+- `src/components/DataGrid.jsx` - Technical data visualization component.
+- `src/components/HUDOverlay.jsx` - The static HUD overlay framing the application.
+- `src/components/CustomCursor.jsx` - Interactive custom mouse cursor.
+
+## 🚦 Getting Started
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+   The site will be available at `http://localhost:5173`.
+
+3. **Build for production:**
+   ```bash
+   npm run build
+   ```
