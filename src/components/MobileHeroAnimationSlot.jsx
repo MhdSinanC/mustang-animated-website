@@ -11,7 +11,7 @@ const globalMobileFrameCache = new Map()
 const getFramePath = (index) => {
   const frameNumber = index + 1
   const paddedIndex = String(frameNumber).padStart(3, '0')
-  return `/mobile-herosection/ezgif-frame-${paddedIndex}.jpg`
+  return `/images/mobile-herosection/ezgif-frame-${paddedIndex}.jpg`
 }
 
 export default function MobileHeroAnimationSlot({ scrollProgress }) {
@@ -217,8 +217,8 @@ export default function MobileHeroAnimationSlot({ scrollProgress }) {
     const diff = target - current
 
     if (Math.abs(diff) > 0.05) {
-      // 0.35 lerp factor offers snappy responsiveness with cinematic continuity
-      currentFrameRef.current = current + diff * 0.35
+      // 0.12 lerp factor offers buttery smooth, cinematic continuity that absorbs scroll wheel/touch shocks
+      currentFrameRef.current = current + diff * 0.12
       const frameToDraw = Math.round(currentFrameRef.current)
       renderFrameIndex(frameToDraw)
       rafIdRef.current = requestAnimationFrame(animationLoop)
